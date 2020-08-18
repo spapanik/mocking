@@ -2,8 +2,8 @@ def echo(*args):
     return args
 
 
-def call_print_builtin():
-    print("actual string")
+def call_id_builtin(obj):
+    return id(obj)
 
 
 def call_same_module_function(*args):
