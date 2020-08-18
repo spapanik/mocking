@@ -3,7 +3,7 @@ from unittest import mock
 from mocking import module
 
 
-@mock.patch("mocking.module.print", new_callable=mock.MagicMock)
+@mock.patch("mocking.module.print")
 def test_mock_a_builtin(mock_print):
     assert mock_print.call_count == 0
     module.call_print_builtin()
