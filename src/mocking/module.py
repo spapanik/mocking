@@ -1,3 +1,7 @@
+def division(numerator, denominator):
+    return numerator / denominator
+
+
 def echo(*args):
     return args
 

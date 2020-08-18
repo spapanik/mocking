@@ -5,6 +5,13 @@ import pytest
 from mocking import module
 
 
+def test_mock_test_raise_exception():
+    pytest.raises(ZeroDivisionError, module.division, 1, denominator=0)
+    exception = pytest.raises(ZeroDivisionError, module.division, 1, 0)
+    assert exception
+    assert exception.value.args == ("division by zero",)
+
+
 @mock.patch("mocking.module.id")
 def test_mock_test_call_arguments_and_counts(mock_id):
     assert mock_id.call_count == 0
