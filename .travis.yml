@@ -11,4 +11,5 @@ install:
   - "yam"
 
 script:
-  - "yam tests"
+  - "yamk lint"
+  - "yamk tests"
