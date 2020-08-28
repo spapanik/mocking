@@ -26,7 +26,7 @@ readme = "README.md"
 repository = "https://github.com/spapanik/mocking"
 
 keywords = ["unittest", "mock", "patch"]
-classifiers=[
+classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Operating System :: OS Independent",
     "Intended Audience :: Developers",
