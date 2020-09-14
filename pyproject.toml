@@ -17,7 +17,7 @@ name = "mocking"
 version = "1.0.0"
 description = "Various mock.patch examples"
 authors = [
-    "Stephanos Kuma <spapanik21@gmail.com>",
+    "Stephanos Kuma <stephanos@kuma.ai>",
 ]
 
 license = "LGPL-3.0+"
