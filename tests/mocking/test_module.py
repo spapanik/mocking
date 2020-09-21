@@ -63,3 +63,8 @@ def test_mock_a_function_same_module_return_from_function(mock_echo):
 @mock.patch("mocking.module.id", new=mock.MagicMock(return_value="a string"))
 def test_mock_a_builtin():
     assert module.call_id_builtin(None) == "a string"
+
+
+@mock.patch("mocking.module.method", new=mock.MagicMock(return_value="a string"))
+def test_mock_a_function_other_module():
+    assert module.call_library_module_function(None) == "a string"
