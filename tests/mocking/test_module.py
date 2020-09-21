@@ -27,7 +27,7 @@ def test_mock_test_call_arguments_and_counts(mock_id):
 
 
 @mock.patch("mocking.module.echo", return_value=42)
-def test_mock_a_function_same_module_constant_return(mock_echo):
+def test_mock_a_function_same_module_constant_return(_mock_echo):
     assert module.call_same_module_function() == 42
 
 
@@ -37,7 +37,7 @@ def test_mock_a_function_same_module_constant_return_no_arg():
 
 
 @mock.patch("mocking.module.echo", side_effect=[42, 1024])
-def test_mock_a_function_same_module_return_from_a_sequence(mock_echo):
+def test_mock_a_function_same_module_return_from_a_sequence(_mock_echo):
     assert module.call_same_module_function() == 42
     assert module.call_same_module_function() == 1024
     assert pytest.raises(StopIteration, module.call_same_module_function)
