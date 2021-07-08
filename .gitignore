@@ -1,10 +1,11 @@
 # cache
 __pycache__/
+.mypy_cache/
 .pytest_cache/
 
 # installation artifacts
 .yamk/
-requirements.txt
+poetry.lock
 
 # Distribution / packaging
 pip-wheel-metadata/
