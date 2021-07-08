@@ -1,9 +1,6 @@
 ["$globals"]
 vars = [
-    {"pytest_args" = "-vv"},
-    {"pytest_path" = "tests/"},
-    {"run" = "poetry run"},
-    {"poetry_extra" = ""},
+    {runner = "poetry run"},
 ]
 
 [all]
@@ -12,7 +9,7 @@ alias = "install"
 [install]
 phony = true
 keep_ts = true
-requires = ["requirements.txt"]
+requires = ["poetry.lock"]
 commands = [
     "poetry install ${poetry_extra}",
 ]
@@ -21,34 +18,29 @@ commands = [
 phony = true
 requires = ["install"]
 commands = [
-    "${run} isort .",
-    "${run} black .",
+    "${runner} isort .",
+    "${runner} black .",
 ]
 
 [lint]
 phony = true
 requires = ["install"]
 commands = [
-    "${run} flake8 .",
-    "${run} isort --check .",
-    "${run} black --check .",
+    "${runner} isort --check .",
+    "${runner} black --check .",
+    "${runner} flake8 .",
+    "${runner} mypy .",
 ]
 
 [tests]
 phony = true
 requires = ["install"]
 commands = [
-    "${run} pytest ${pytest_args} ${pytest_path}",
+    "${runner} pytest ${pytest_args} ${pytest_path}",
 ]
 
 ["poetry.lock"]
 requires = ["pyproject.toml"]
 commands = [
     "poetry lock && touch ${.target}",
-]
-
-["requirements.txt"]
-requires = ["poetry.lock"]
-commands = [
-    "poetry export --without-hashes -f requirements.txt -o ${.target}",
 ]
