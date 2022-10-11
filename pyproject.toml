@@ -12,6 +12,38 @@ include_trailing_comma = true
 known_tests = "tests"
 sections = ["STDLIB", "THIRDPARTY", "FIRSTPARTY", "TESTS"]
 
+[tool.mypy]
+check_untyped_defs = true
+disallow_any_generics = true
+ignore_missing_imports = true
+no_implicit_reexport = true
+show_error_codes = true
+strict_optional = false
+warn_return_any = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_unreachable = true
+warn_unused_configs = true
+
+[tool.flake8]
+exclude = [
+    ".git",
+    "__pycache__",
+    ".venv",
+    ".cache",
+]
+max-line-length = 88
+ignore = [
+    "E203",
+    "E501",
+    "W503",
+]
+banned-modules = """
+    mock = use unittest.mock
+    pytz = use zoneinfo
+"""
+ban-relative-imports = true
+
 [tool.pytest.ini_options]
 addopts = "-vv"
 testpaths = "tests"
