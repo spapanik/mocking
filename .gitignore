@@ -2,7 +2,13 @@
 __pycache__/
 .mypy_cache/
 .pytest_cache/
+.ruff_cache/
+.cov_cache/
 
 # installation artifacts
 .yamk/
 poetry.lock
+
+# dev
+local*
+local/

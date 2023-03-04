@@ -16,13 +16,13 @@ def test_mock_test_raise_exception():
 def test_mock_test_call_arguments_and_counts(mock_id):
     assert mock_id.call_count == 0
     module.call_id_builtin(None)
-    module.call_id_builtin(True)
-    module.call_id_builtin(False)
+    module.call_id_builtin(True)  # noqa: FBT003
+    module.call_id_builtin(False)  # noqa: FBT003
     assert mock_id.call_count == 3
     assert mock_id.call_args_list == [
         mock.call(None),
-        mock.call(True),
-        mock.call(False),
+        mock.call(True),  # noqa: FBT003
+        mock.call(False),  # noqa: FBT003
     ]
 
 
@@ -56,8 +56,8 @@ def test_mock_a_function_same_module_return_from_function(mock_echo):
         return 42 if argument else 1024
 
     mock_echo.side_effect = mock_echo_side_effect
-    assert module.call_same_module_function(True) == 42
-    assert module.call_same_module_function(False) == 1024
+    assert module.call_same_module_function(True) == 42  # noqa: FBT003
+    assert module.call_same_module_function(False) == 1024  # noqa: FBT003
 
 
 @mock.patch("mocking.module.id", new=mock.MagicMock(return_value="a string"))

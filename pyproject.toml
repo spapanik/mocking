@@ -3,14 +3,7 @@ requires = ["poetry_core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.black]
-target-version = ["py37", "py38", "py39", "py310"]
-
-[tool.isort]
-line_length = 88
-multi_line_output = 3
-include_trailing_comma = true
-known_tests = "tests"
-sections = ["STDLIB", "THIRDPARTY", "FIRSTPARTY", "TESTS"]
+target-version = ["py38", "py39", "py310", "py311"]
 
 [tool.mypy]
 check_untyped_defs = true
@@ -18,35 +11,68 @@ disallow_any_generics = true
 ignore_missing_imports = true
 no_implicit_reexport = true
 show_error_codes = true
-strict_optional = false
 warn_return_any = true
 warn_redundant_casts = true
 warn_unused_ignores = true
 warn_unreachable = true
 warn_unused_configs = true
 
-[tool.flake8]
-exclude = [
-    ".git",
-    "__pycache__",
-    ".venv",
-    ".cache",
+[tool.ruff]
+select = [
+    "A",
+    "ARG",
+    "B",
+    "BLE",
+    "C4",
+    "DTZ",
+    "E",
+    "ERA",
+    "EXE",
+    "F",
+    "FBT",
+    "G",
+    "I",
+    "INP",
+    "ISC",
+    "N",
+    "PGH",
+    "PIE",
+    "PLC",
+    "PLE",
+    "PLW",
+    "PTH",
+    "RET",
+    "RSE",
+    "RUF",
+    "SIM",
+    "SLF",
+    "T10",
+    "TID",
+    "TRY",
+    "UP",
+    "W",
 ]
-max-line-length = 88
 ignore = [
-    "E203",
     "E501",
-    "W503",
+    "TRY003",
 ]
-banned-modules = """
-    mock = use unittest.mock
-    pytz = use zoneinfo
-"""
-ban-relative-imports = true
+src = ["src"]
+target-version = "py38"
+
+[tool.ruff.flake8-tidy-imports]
+ban-relative-imports = "all"
+
+[tool.ruff.flake8-tidy-imports.banned-api]
+"mock".msg = "Use unittest.mock"
+"pytz".msg = "Use zoneinfo"
 
 [tool.pytest.ini_options]
-addopts = "-vv"
+addopts = "-vv --cov --cov-report=term-missing:skip-covered"
 testpaths = "tests"
+
+[tool.coverage.run]
+source = ["src/"]
+data_file = ".cov_cache/coverage.dat"
 
 [tool.poetry]
 name = "mocking"
@@ -57,7 +83,7 @@ authors = [
 ]
 
 license = "LGPL-3.0+"
-readme = "README.md"
+readme = "README.rst"
 
 repository = "https://github.com/spapanik/mocking"
 
@@ -70,26 +96,18 @@ classifiers = [
 
 [tool.poetry.dependencies]
 # python version
-python = "^3.7.0"
+python = "^3.8"
 
 [tool.poetry.group.dev.dependencies]
-pdbpp = "^0.10.0"
-pipdeptree = "^2.3.0"
-ptpython = "^3.0.0"
+ipdb = {version = "^0.13", python = "^3.9"}
+ipython = {version = "^8.11", python = "^3.9"}
+pipdeptree = "^2.5"
 
 [tool.poetry.group.lint.dependencies]
-black = "^22.10.0"
-flake8 = "^5.0.0"
-flake8-bugbear = "^22.9.0"
-flake8-builtins = "^2.0.0"
-flake8-comprehensions = "^3.10.0"
-flake8-eradicate = "^1.4.0"
-flake8-executable = "^2.1.0"
-flake8-mutable = "^1.2.0"
-Flake8-pyproject = "~1.1.0"
-flake8-tidy-imports = "^4.8.0"
-isort = "^5.10.0"
-mypy = "^0.982"
+black = "^23.1"
+mypy = "^1.0"
+ruff = "^0.0"
 
 [tool.poetry.group.test.dependencies]
-pytest = "^7.1.0"
+pytest = "^7.1"
+pytest-cov = "^4.0"
