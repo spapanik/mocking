@@ -2,7 +2,15 @@
 __pycache__/
 .mypy_cache/
 .pytest_cache/
+.ruff_cache/
+.cov_cache/
 
-# installation artifacts
+# installation/build artifacts
 .yamk/
-poetry.lock
+dist/
+uv.lock
+
+# local dev
+/cookbook.yaml.d/
+local/
+local.*

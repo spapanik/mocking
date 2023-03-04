@@ -1,18 +1,21 @@
-<p align="center">
-<a href="https://github.com/spapanik/mocking/blob/master/LICENSE.txt"><img alt="License" src="https://img.shields.io/github/license/spapanik/mocking"></a>
-<a href="https://github.com/psf/black"><img alt="Code style" src="https://img.shields.io/badge/code%20style-black-000000.svg"></a>
-</p>
+# mocking: mock.patch examples
 
-# mocking: A showcase of different situations of mock.patch usage
+[![lint][lint_badge]][lint_url]
+[![tests][tests_badge]][tests_url]
+[![build automation: yam][yam_badge]][yam_url]
+[![Lint: ruff][ruff_badge]][ruff_url]
 
-## Installation and usage
+Install by running `yam install` in a venv, and then run `yam tests`.
+After finding the usage that best describes your usecase,
+you can inspect `tests/test_exposed.py` and see how the patching was done.
 
-The recommended way to install and use mocking is via _yam_, which can be installed by `pip install --user yamk`. Please make sure that you add the path where pip installs user-local binaries to you $PATH variable. Arch Linux users can install yam from AUR, as `python-yamk`. Also, _poetry_ (at least version 1.0.0) is required.
-
-### Installation
-
-Just run `yam`
-
-### Usage
-
-Just run `yam tests`. After finding the usage that best describes your usecase, you can inspect `tests/test_exposed.py` and see how the patching was done.
+[build_badge]: https://github.com/spapanik/mocking/actions/workflows/build.yml/badge.svg
+[build_url]: https://github.com/spapanik/mocking/actions/workflows/build.yml
+[lint_badge]: https://github.com/spapanik/mocking/actions/workflows/lint.yml/badge.svg
+[lint_url]: https://github.com/spapanik/mocking/actions/workflows/lint.yml
+[tests_badge]: https://github.com/spapanik/mocking/actions/workflows/tests.yml/badge.svg
+[tests_url]: https://github.com/spapanik/mocking/actions/workflows/tests.yml
+[yam_badge]: https://img.shields.io/badge/build%20automation-yamk-success
+[yam_url]: https://github.com/spapanik/yamk
+[ruff_badge]: https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/charliermarsh/ruff/main/assets/badge/v1.json
+[ruff_url]: https://github.com/charliermarsh/ruff

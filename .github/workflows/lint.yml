@@ -1,4 +1,4 @@
-name: build
+name: lint
 permissions:
   contents: read
 
@@ -14,7 +14,7 @@ env:
   PYTHONUTF8: 1
 
 jobs:
-  build-python:
+  lint-python:
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -40,6 +40,11 @@ jobs:
         run: |
           uv tool install phosphorus
           uv tool install yamk
-      - name: Build the project
+      - name: Install dependencies
+        env:
+          UV_GROUPS: --no-dev --group lint
         run: |
-          yam -e build
+          yam install
+      - name: Lint the project
+        run: |
+          yam -e lint

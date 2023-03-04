@@ -1,4 +1,4 @@
-name: build
+name: tests
 permissions:
   contents: read
 
@@ -14,7 +14,7 @@ env:
   PYTHONUTF8: 1
 
 jobs:
-  build-python:
+  unittest-python:
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -40,6 +40,11 @@ jobs:
         run: |
           uv tool install phosphorus
           uv tool install yamk
-      - name: Build the project
+      - name: Install dependencies
+        env:
+          UV_GROUPS: --no-dev --group test
         run: |
-          yam -e build
+          yam install
+      - name: Test the project
+        run: |
+          yam -e tests --cov

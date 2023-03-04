@@ -1,95 +1,148 @@
 [build-system]
-requires = ["poetry_core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
-
-[tool.black]
-target-version = ["py37", "py38", "py39", "py310"]
-
-[tool.isort]
-line_length = 88
-multi_line_output = 3
-include_trailing_comma = true
-known_tests = "tests"
-sections = ["STDLIB", "THIRDPARTY", "FIRSTPARTY", "TESTS"]
-
-[tool.mypy]
-check_untyped_defs = true
-disallow_any_generics = true
-ignore_missing_imports = true
-no_implicit_reexport = true
-show_error_codes = true
-strict_optional = false
-warn_return_any = true
-warn_redundant_casts = true
-warn_unused_ignores = true
-warn_unreachable = true
-warn_unused_configs = true
-
-[tool.flake8]
-exclude = [
-    ".git",
-    "__pycache__",
-    ".venv",
-    ".cache",
+requires = [
+    "phosphorus>=0.10",
 ]
-max-line-length = 88
-ignore = [
-    "E203",
-    "E501",
-    "W503",
-]
-banned-modules = """
-    mock = use unittest.mock
-    pytz = use zoneinfo
-"""
-ban-relative-imports = true
+build-backend = "phosphorus.construction.api"
 
-[tool.pytest.ini_options]
-addopts = "-vv"
-testpaths = "tests"
-
-[tool.poetry]
+[project]
 name = "mocking"
 version = "1.0.0"
-description = "Various mock.patch examples"
+
 authors = [
-    "Stephanos Kuma <stephanos@kuma.ai>",
+    { name = "Stephanos Kuma", email = "stephanos@kuma.ai" },
 ]
+license = { text = "BSD-3-Clause" }
 
-license = "LGPL-3.0+"
 readme = "README.md"
-
-repository = "https://github.com/spapanik/mocking"
-
-keywords = ["unittest", "mock", "patch"]
+description = "Various mock.patch examples"
+keywords = [
+    "unittest",
+    "mock",
+    "patch",
+]
 classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3 :: Only",
+    "License :: OSI Approved :: BSD License",
     "Intended Audience :: Developers",
 ]
 
-[tool.poetry.dependencies]
-# python version
-python = "^3.7.0"
+requires-python = ">=3.10"
 
-[tool.poetry.group.dev.dependencies]
-pdbpp = "^0.10.0"
-pipdeptree = "^2.3.0"
-ptpython = "^3.0.0"
+[project.urls]
+repository = "https://github.com/spapanik/mocking"
 
-[tool.poetry.group.lint.dependencies]
-black = "^22.10.0"
-flake8 = "^5.0.0"
-flake8-bugbear = "^22.9.0"
-flake8-builtins = "^2.0.0"
-flake8-comprehensions = "^3.10.0"
-flake8-eradicate = "^1.4.0"
-flake8-executable = "^2.1.0"
-flake8-mutable = "^1.2.0"
-Flake8-pyproject = "~1.1.0"
-flake8-tidy-imports = "^4.8.0"
-isort = "^5.10.0"
-mypy = "^0.982"
+[dependency-groups]
+dev = [
+    "ipdb~=0.13",
+    "ipython~=8.37",
+    { include-group = "lint" },
+    { include-group = "test" },
+]
+lint = [
+    "mypy~=1.16",
+    "ruff~=0.12",
+    { include-group = "test_core" },
+]
+test = [
+    "pytest-cov~=6.2",
+    { include-group = "test_core" },
+]
+test_core = [
+    "pytest~=8.4",
+]
 
-[tool.poetry.group.test.dependencies]
-pytest = "^7.1.0"
+[tool.mypy]
+check_untyped_defs = true
+disallow_any_decorated = true
+disallow_any_explicit = true
+disallow_any_expr = false          # many builtins are Any
+disallow_any_generics = true
+disallow_any_unimported = true
+disallow_incomplete_defs = true
+disallow_subclassing_any = true
+disallow_untyped_calls = true
+disallow_untyped_decorators = true
+disallow_untyped_defs = true
+extra_checks = true
+ignore_missing_imports = true
+no_implicit_reexport = true
+show_column_numbers = true
+show_error_codes = true
+strict_equality = true
+warn_redundant_casts = true
+warn_return_any = true
+warn_unused_configs = true
+warn_unused_ignores = true
+warn_unreachable = true
+
+[[tool.mypy.overrides]]
+module = "tests.*"
+disallow_any_decorated = false # mock.MagicMock is Any
+
+[tool.ruff]
+src = [
+    "src",
+]
+target-version = "py310"
+
+[tool.ruff.lint]
+select = [
+    "ALL",
+]
+ignore = [
+    "C901",   # Adding a limit to complexity is too arbitrary
+    "COM812", # Avoid conflicts with the formatter
+    "D10",    # Not everything needs a docstring
+    "D203",   # Prefer `no-blank-line-before-class` (D211)
+    "D213",   # Prefer `multi-line-summary-first-line` (D212)
+    "PLR09",  # Adding a limit to complexity is too arbitrary
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = [
+    "FBT001",  # Test arguments are handled by pytest
+    "PLR2004", # Tests should contain magic number comparisons
+    "S101",    # Pytest needs assert statements
+]
+
+[tool.ruff.lint.flake8-tidy-imports]
+ban-relative-imports = "all"
+
+[tool.ruff.lint.flake8-tidy-imports.banned-api]
+"mock".msg = "Use unittest.mock"
+"pytz".msg = "Use zoneinfo"
+
+[tool.ruff.lint.isort]
+combine-as-imports = true
+forced-separate = [
+    "tests",
+]
+split-on-trailing-comma = false
+
+[tool.pytest.ini_options]
+addopts = "-ra -v"
+testpaths = "tests"
+
+[tool.coverage.run]
+branch = true
+source = [
+    "src/",
+]
+data_file = ".cov_cache/coverage.dat"
+omit = [
+    "src/mocking/lib/type_defs.py",
+]
+
+[tool.coverage.report]
+exclude_also = [
+    "if TYPE_CHECKING:",
+    "raise NotImplementedError",
+    "raise UnreachableCodeError",
+]
+fail_under = 100
+precision = 2
+show_missing = true
+skip_covered = true
+skip_empty = true
