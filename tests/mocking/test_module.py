@@ -6,9 +6,9 @@ from mocking import module
 
 
 def test_mock_test_raise_exception() -> None:
-    pytest.raises(ZeroDivisionError, module.division, 1, denominator=0)
-    exception = pytest.raises(ZeroDivisionError, module.division, 1, 0)
-    assert exception
+    with pytest.raises(ZeroDivisionError) as exception:
+        module.division(1, denominator=0)
+    assert exception.value
     assert exception.value.args == ("division by zero",)
 
 
@@ -44,14 +44,16 @@ def test_mock_a_function_same_module_return_from_a_sequence(
 ) -> None:
     assert module.call_same_module_function() == 42  # type: ignore[comparison-overlap]
     assert module.call_same_module_function() == 1024  # type: ignore[comparison-overlap]
-    assert pytest.raises(StopIteration, module.call_same_module_function)
+    with pytest.raises(StopIteration):
+        module.call_same_module_function()
 
 
 @mock.patch("mocking.module.echo", new=mock.MagicMock(side_effect=[42, 1024]))
 def test_mock_a_function_same_module_return_from_a_sequence_no_arg() -> None:
     assert module.call_same_module_function() == 42  # type: ignore[comparison-overlap]
     assert module.call_same_module_function() == 1024  # type: ignore[comparison-overlap]
-    assert pytest.raises(StopIteration, module.call_same_module_function)
+    with pytest.raises(StopIteration):
+        module.call_same_module_function()
 
 
 @mock.patch("mocking.module.echo")
